@@ -38,3 +38,6 @@ smart-finance-api-transaction/.gradle/
 smart-finance-api-transaction/.idea/
 smart-finance-api-transaction/build/
 smart-finance-api-transaction/gradle/
+smart-finance-api-currency/.idea/
+smart-finance-api-customer/.idea/
+smart-finance-api-financial-operator/.idea/
