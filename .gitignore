@@ -26,3 +26,15 @@ replay_pid*
 /.gradle/
 /.idea/
 /.build/
+smart-finance-api-currency/.gradle/
+smart-finance-api-currency/build/
+smart-finance-api-customer/.gradle/
+smart-finance-api-customer/build/
+smart-finance-api-customer/gradle/
+smart-finance-api-finance/gradle/
+smart-finance-api-financial-loader/gradle/
+smart-finance-api-financial-operator/gradle/
+smart-finance-api-transaction/.gradle/
+smart-finance-api-transaction/.idea/
+smart-finance-api-transaction/build/
+smart-finance-api-transaction/gradle/
