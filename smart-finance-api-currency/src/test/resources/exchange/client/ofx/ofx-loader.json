@@ -1,0 +1,267 @@
+{
+  "CurrentInterbankRate": 5.5625,
+  "CurrentInverseInterbankRate": 0.179775,
+  "Average": 4.325947,
+  "HistoricalPoints": [
+    {
+      "PointInTime": 1726790400000,
+      "InterbankRate": 5.5087,
+      "InverseInterbankRate": 0.181531
+    },
+    {
+      "PointInTime": 1726876800000,
+      "InterbankRate": 5.5151,
+      "InverseInterbankRate": 0.181320
+    },
+    {
+      "PointInTime": 1726963200000,
+      "InterbankRate": 5.5151,
+      "InverseInterbankRate": 0.181320
+    },
+    {
+      "PointInTime": 1727049600000,
+      "InterbankRate": 5.5404,
+      "InverseInterbankRate": 0.180492
+    },
+    {
+      "PointInTime": 1727136000000,
+      "InterbankRate": 5.4547,
+      "InverseInterbankRate": 0.183328
+    },
+    {
+      "PointInTime": 1727222400000,
+      "InterbankRate": 5.4785,
+      "InverseInterbankRate": 0.182532
+    },
+    {
+      "PointInTime": 1727308800000,
+      "InterbankRate": 5.4409,
+      "InverseInterbankRate": 0.183793
+    },
+    {
+      "PointInTime": 1727395200000,
+      "InterbankRate": 5.4363,
+      "InverseInterbankRate": 0.183949
+    },
+    {
+      "PointInTime": 1727481600000,
+      "InterbankRate": 5.4339,
+      "InverseInterbankRate": 0.184030
+    },
+    {
+      "PointInTime": 1727568000000,
+      "InterbankRate": 5.4339,
+      "InverseInterbankRate": 0.184030
+    },
+    {
+      "PointInTime": 1727654400000,
+      "InterbankRate": 5.4435,
+      "InverseInterbankRate": 0.183705
+    },
+    {
+      "PointInTime": 1727740800000,
+      "InterbankRate": 5.454,
+      "InverseInterbankRate": 0.183352
+    },
+    {
+      "PointInTime": 1727827200000,
+      "InterbankRate": 5.4428,
+      "InverseInterbankRate": 0.183729
+    },
+    {
+      "PointInTime": 1727913600000,
+      "InterbankRate": 5.482,
+      "InverseInterbankRate": 0.182415
+    },
+    {
+      "PointInTime": 1728000000000,
+      "InterbankRate": 5.4626,
+      "InverseInterbankRate": 0.183063
+    },
+    {
+      "PointInTime": 1728086400000,
+      "InterbankRate": 5.457188,
+      "InverseInterbankRate": 0.183245
+    },
+    {
+      "PointInTime": 1728172800000,
+      "InterbankRate": 5.457188,
+      "InverseInterbankRate": 0.183245
+    },
+    {
+      "PointInTime": 1728259200000,
+      "InterbankRate": 5.4799,
+      "InverseInterbankRate": 0.182485
+    },
+    {
+      "PointInTime": 1728345600000,
+      "InterbankRate": 5.5251,
+      "InverseInterbankRate": 0.180992
+    },
+    {
+      "PointInTime": 1728432000000,
+      "InterbankRate": 5.5902,
+      "InverseInterbankRate": 0.178884
+    },
+    {
+      "PointInTime": 1728518400000,
+      "InterbankRate": 5.5887,
+      "InverseInterbankRate": 0.178932
+    },
+    {
+      "PointInTime": 1728604800000,
+      "InterbankRate": 5.6389,
+      "InverseInterbankRate": 0.177340
+    },
+    {
+      "PointInTime": 1728691200000,
+      "InterbankRate": 5.6118,
+      "InverseInterbankRate": 0.178196
+    },
+    {
+      "PointInTime": 1728777600000,
+      "InterbankRate": 5.6118,
+      "InverseInterbankRate": 0.178196
+    },
+    {
+      "PointInTime": 1728864000000,
+      "InterbankRate": 5.5811,
+      "InverseInterbankRate": 0.179176
+    },
+    {
+      "PointInTime": 1728950400000,
+      "InterbankRate": 5.6597,
+      "InverseInterbankRate": 0.176688
+    },
+    {
+      "PointInTime": 1729036800000,
+      "InterbankRate": 5.6634,
+      "InverseInterbankRate": 0.176572
+    },
+    {
+      "PointInTime": 1729123200000,
+      "InterbankRate": 5.6749,
+      "InverseInterbankRate": 0.176215
+    },
+    {
+      "PointInTime": 1729209600000,
+      "InterbankRate": 5.6811,
+      "InverseInterbankRate": 0.176022
+    },
+    {
+      "PointInTime": 1729296000000,
+      "InterbankRate": 5.6933,
+      "InverseInterbankRate": 0.175645
+    },
+    {
+      "PointInTime": 1729382400000,
+      "InterbankRate": 5.637383,
+      "InverseInterbankRate": 0.177387
+    },
+    {
+      "PointInTime": 1729468800000,
+      "InterbankRate": 5.7059,
+      "InverseInterbankRate": 0.175257
+    },
+    {
+      "PointInTime": 1729555200000,
+      "InterbankRate": 5.6842,
+      "InverseInterbankRate": 0.175926
+    },
+    {
+      "PointInTime": 1729641600000,
+      "InterbankRate": 5.7122,
+      "InverseInterbankRate": 0.175064
+    },
+    {
+      "PointInTime": 1729728000000,
+      "InterbankRate": 5.7096,
+      "InverseInterbankRate": 0.175144
+    },
+    {
+      "PointInTime": 1729814400000,
+      "InterbankRate": 5.6971,
+      "InverseInterbankRate": 0.175528
+    },
+    {
+      "PointInTime": 1729900800000,
+      "InterbankRate": 5.7075,
+      "InverseInterbankRate": 0.175208
+    },
+    {
+      "PointInTime": 1729987200000,
+      "InterbankRate": 5.708956,
+      "InverseInterbankRate": 0.175163
+    },
+    {
+      "PointInTime": 1730073600000,
+      "InterbankRate": 5.707,
+      "InverseInterbankRate": 0.175223
+    },
+    {
+      "PointInTime": 1730160000000,
+      "InterbankRate": 5.7521,
+      "InverseInterbankRate": 0.173850
+    },
+    {
+      "PointInTime": 1730246400000,
+      "InterbankRate": 5.7787,
+      "InverseInterbankRate": 0.173049
+    },
+    {
+      "PointInTime": 1730332800000,
+      "InterbankRate": 5.7891,
+      "InverseInterbankRate": 0.172738
+    },
+    {
+      "PointInTime": 1730419200000,
+      "InterbankRate": 5.8259,
+      "InverseInterbankRate": 0.171647
+    },
+    {
+      "PointInTime": 1730505600000,
+      "InterbankRate": 5.8694,
+      "InverseInterbankRate": 0.170375
+    },
+    {
+      "PointInTime": 1730592000000,
+      "InterbankRate": 5.700501,
+      "InverseInterbankRate": 0.175423
+    },
+    {
+      "PointInTime": 1730678400000,
+      "InterbankRate": 5.7734,
+      "InverseInterbankRate": 0.173208
+    },
+    {
+      "PointInTime": 1730764800000,
+      "InterbankRate": 5.7814,
+      "InverseInterbankRate": 0.172968
+    },
+    {
+      "PointInTime": 1730851200000,
+      "InterbankRate": 5.704,
+      "InverseInterbankRate": 0.175316
+    },
+    {
+      "PointInTime": 1730937600000,
+      "InterbankRate": 5.7008,
+      "InverseInterbankRate": 0.175414
+    },
+    {
+      "PointInTime": 1731024000000,
+      "InterbankRate": 5.7782,
+      "InverseInterbankRate": 0.173064
+    },
+    {
+      "PointInTime": 1731110400000,
+      "InterbankRate": 5.7379,
+      "InverseInterbankRate": 0.174280
+    },
+    {
+      "PointInTime": 1731196800000,
+      "InterbankRate": 5.7379,
+      "InverseInterbankRate": 0.174280
+    }
+  ]
+}

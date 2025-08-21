@@ -1,5 +1,6 @@
-package com.smartfinance.exchange.config;
+package com.smartfinance.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -16,6 +17,7 @@ public class AsyncConfig implements AsyncConfigurer {
   private static final int QUEUE_CAPACITY = 8;
   public static final String EXEC_NAME = "Exchange-Exec";
 
+  @Bean(EXEC_NAME)
   @Override
   public Executor getAsyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

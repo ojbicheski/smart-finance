@@ -1,42 +1,24 @@
 package com.smartfinance.exchange.controller.v1.impl;
 
-import com.smartfinance.currency.controller.v1.CurrencyController;
-import com.smartfinance.currency.dto.CurrencyDTO;
+import com.smartfinance.exchange.controller.v1.ExchangeController;
+import com.smartfinance.exchange.controller.v1.model.ExchangeRequest;
+import com.smartfinance.exchange.dto.ExchangeDTO;
+import com.smartfinance.exchange.service.ExchangeService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/currencies")
-public class ExchangeControllerImpl implements CurrencyController {
-  private final com.smartfinance.currency.service.CurrencyService service;
+@RequestMapping("/api/v1/exchanges")
+public class ExchangeControllerImpl implements ExchangeController {
+  private final ExchangeService service;
 
-  @DeleteMapping("/{reference}")
+  @PostMapping("/countries-date")
   @Override
-  public ResponseEntity<Void> del(UUID reference) {
-    service.delete(reference);
-    return ResponseEntity.ok().build();
-  }
-
-  @GetMapping("/{reference}")
-  @Override
-  public ResponseEntity<CurrencyDTO> get(UUID reference) {
-    return ResponseEntity.ok(service.find(reference));
-  }
-
-  @PostMapping
-  @Override
-  public ResponseEntity<CurrencyDTO> save(CurrencyDTO currencyDTO) {
-    return ResponseEntity.ok(service.save(currencyDTO));
-  }
-
-  @GetMapping
-  @Override
-  public Page<CurrencyDTO> list(String name, int page, int size, String orderBy, String direction) {
-    return service.list(name, page(page, size, orderBy, direction));
+  public List<ExchangeDTO> exchanges(ExchangeRequest request) {
+    return service.exchanges(
+        request.getFrom(), request.getCountries(), request.getTarget());
   }
 }

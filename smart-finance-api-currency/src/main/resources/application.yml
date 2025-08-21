@@ -1,0 +1,52 @@
+server:
+  port: 9090
+
+spring:
+
+  application:
+    name: smart-finance-api-customer
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+## CRON Jobs - Samples
+# Run each 5 minutes: "0 */5 * ? * *"
+# Run each 1 hour: "0 0/1 * * * ?"
+# Run every 5th minute (0, 5, 10, ..., 55): "*/5 * * * *"
+
+exchange:
+  client:
+    ofx:
+#      periods: week,month,3month,6month,year,3year,5year,10year,allTime
+      inverted: BRL,MGA
+      host: https://api.ofx.com
+      resource:
+        period: /PublicSite.ApiService/SpotRateHistory/{period}/{from}/{to}?DecimalPlaces=6&ReportingInterval=daily&format=json
+        range: /PublicSite.ApiService/SpotRateHistory/{from}/{to}/{start}/{end}?DecimalPlaces=6&ReportingInterval=daily&format=json
+      timeout:
+        connection: 10000 # 10 secs
+        response: 10000 # 10 secs
+        read: 60000 # 1 minute
+        write: 10000 # 10 secs
+
+  schedule:
+    # Jan 1st 2017
+    start-date: 2017-01-01
+    # it will run every Friday 10 PM
+    cron: 0 22 * * FRI
+
+# Messages
+messages:
+  validation:
+    exchange:
+      request:
+        countries-date:
+          from:
+            NotNull: The Currency From is required for this request
+          countries:
+            NotNull: The list of Countries is required for this request
+          target:
+            NotNull: The Target date is required for this request
