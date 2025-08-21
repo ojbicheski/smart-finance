@@ -1,8 +1,8 @@
 package com.smartfinance.product.controller.v1.impl;
 
-import com.smartfinance.operator.dto.OperatorDTO;
-import com.smartfinance.operator.service.OperatorService;
 import com.smartfinance.product.controller.v1.TypeController;
+import com.smartfinance.product.dto.TypeDTO;
+import com.smartfinance.product.service.TypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,33 +11,33 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/operators")
+@RequestMapping("/api/v1/product/types")
 @AllArgsConstructor
 public class TypeControllerImpl implements TypeController {
-  private final OperatorService service;
+  private final TypeService service;
 
   @PostMapping
   @Override
-  public ResponseEntity<OperatorDTO> save(UUID country, OperatorDTO operatorDTO) {
-    return ResponseEntity.ok(service.save(country, operatorDTO));
+  public ResponseEntity<TypeDTO> save(UUID operator, TypeDTO dto) {
+    return ResponseEntity.ok(service.save(operator, dto));
   }
 
   @GetMapping("/{reference}")
   @Override
-  public ResponseEntity<OperatorDTO> get(UUID reference) {
+  public ResponseEntity<TypeDTO> find(UUID reference) {
     return ResponseEntity.ok(service.find(reference));
   }
 
   @DeleteMapping("/{reference}")
   @Override
   public ResponseEntity<Void> delete(UUID reference) {
-//    service.delete(reference);
+    service.delete(reference);
     return ResponseEntity.ok().build();
   }
 
   @GetMapping
   @Override
-  public List<OperatorDTO> list(UUID country) {
-    return service.list(country);
+  public List<TypeDTO> list(UUID operator, boolean active) {
+    return service.list(operator, active);
   }
 }

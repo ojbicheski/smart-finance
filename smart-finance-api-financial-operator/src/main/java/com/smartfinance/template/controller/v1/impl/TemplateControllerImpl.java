@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/templates")
+@RequestMapping("/api/v1/templates")
 @AllArgsConstructor
 public class TemplateControllerImpl implements TemplateController {
   private final TemplateService service;
@@ -26,6 +26,12 @@ public class TemplateControllerImpl implements TemplateController {
   @Override
   public ResponseEntity<TemplateDTO> get(UUID reference) {
     return ResponseEntity.ok(service.find(reference));
+  }
+
+  @GetMapping("/operator/{operator}")
+  @Override
+  public ResponseEntity<TemplateDTO> getByOperator(UUID operator) {
+    return ResponseEntity.ok(service.findByOperator(operator));
   }
 
   @GetMapping

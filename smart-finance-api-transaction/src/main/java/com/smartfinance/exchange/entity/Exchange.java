@@ -10,8 +10,5 @@ import lombok.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Exchange extends AbstractReference {
 }

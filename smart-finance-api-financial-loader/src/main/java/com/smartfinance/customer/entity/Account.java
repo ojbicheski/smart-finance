@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -12,8 +13,9 @@ import java.util.UUID;
 @Table(schema = "customer", name = "tb_account")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class Account extends AbstractReference {
-  @Column(nullable = false)
+  @Column(name = "number_acct", nullable = false)
   private String number;
   @Column(nullable = false)
   private boolean active;

@@ -1,38 +1,29 @@
 package com.smartfinance.transaction.service;
 
-import com.smartfinance.currency.entity.Currency;
-import com.smartfinance.currency.service.CurrencyService;
+import com.smartfinance.customer.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 @Slf4j
 public class ScheduleService {
-  private final CurrencyService currencyService;
-  private final ExchangeService exchangeService;
+  private final CustomerRepository customerRepository;
+  private final BalanceService service;
 
-  @Scheduled(cron = "0 0/2 * * * ?")
+  @Scheduled(cron = "${cron.job.update-balances:* */10 * * * *}")
   @SchedulerLock(
-      name = "TaskScheduler_scheduledTask_exchange",
+      name = "TaskScheduler_scheduledTask_balance",
       lockAtLeastFor = "PT5M",
-      lockAtMostFor = "PT15M"
+      lockAtMostFor = "PT20M"
   )
-  public void run() {
+  public void updateBalance() {
     log.info("Schedule service triggered.");
-    log.info("Processing Exchanges...");
-    List<Currency> loop1 = currencyService.list();
-    List<Currency> loop2 = loop1.stream().toList();
-
-    loop1.forEach(from -> loop2.stream()
-        .filter(to -> !to.getCode().equals(from.getCode()))
-        .forEach(to -> exchangeService.loadExchanges(from, to))
-    );
-    log.info("Exchanges proceeded.");
+    log.info("Processing Balances...");
+    customerRepository.findAll().forEach(service::update);
+    log.info("Balances proceeded.");
   }
 }

@@ -1,19 +1,20 @@
 package com.smartfinance.template.dto;
 
-import com.smartfinance.entity.AbstractReference;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Table(schema = "financial_operator", name = "tb_format_file")
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class FormatDTO extends AbstractReference {
-  @Column(nullable = false)
+import java.util.UUID;
+
+@Getter
+@Setter
+public class FormatDTO {
+  private UUID reference;
+  @NotNull(message = "{messages.validation.format.extension.NotNull}")
+  @Size(min = 3, max = 5, message = "{messages.validation.format.extension.Size}")
   private String extension;
-  @Column(nullable = false)
   private boolean active;
 }

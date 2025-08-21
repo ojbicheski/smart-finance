@@ -1,0 +1,23 @@
+server:
+  port: 9093
+
+spring:
+
+  application:
+    name: smart-finance-api-loader
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+client:
+  operator:
+      resource:
+        template: /api/v1/templates/{reference}
+      timeout:
+        connection: 10000 # 10 secs
+        response: 10000 # 10 secs
+        read: 60000 # 1 minute
+        write: 10000 # 10 secs

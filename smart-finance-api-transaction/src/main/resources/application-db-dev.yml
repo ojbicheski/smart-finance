@@ -1,0 +1,38 @@
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
+
+spring:
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/smart_finance
+    username: sf_transaction_user
+    password: P@ssw0rd
+
+#    hikari:
+#      type: com.zaxxer.hikari.HikariDataSource
+#      driver-class-name: org.postgresql.Driver
+#      connection-timeout: 30000
+#      maximum-pool-size: 5
+#      minimum-idle: 1
+#      idle-timeout: 600000
+#      max-lifetime: 1800000
+#      pool-name: collection-pool-customer
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    driver-class-name: ${spring.datasource.driver-class-name}
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    default-schema: transact
+    enabled: true

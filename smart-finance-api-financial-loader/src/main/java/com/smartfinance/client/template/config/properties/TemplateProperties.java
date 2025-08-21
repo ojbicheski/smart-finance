@@ -10,22 +10,23 @@ import java.util.stream.Stream;
 @Component
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "exchange.client.ofx")
+@ConfigurationProperties(prefix = "client.operator")
 public class TemplateProperties {
-//  private String[] periods;
-  private String[] inverted;
   private String host;
-
-  public boolean isInverted(String currency) {
-    return Stream.of(inverted).anyMatch(i -> i.equalsIgnoreCase(currency));
-  }
 
   private Resource resource;
   @Setter
   @Getter
   public static class Resource {
-    private String period;
-    private String range;
+    private String template;
+  }
+
+  private BasicAuth auth;
+  @Setter
+  @Getter
+  public static class BasicAuth {
+    private String user;
+    private String password;
   }
 
   private Timeout timeout;

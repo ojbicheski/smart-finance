@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 @EnableScheduling
 @EnableSchedulerLock(defaultLockAtMostFor = "30s")
 public class SchedulerLockConfiguration {
-  private static final String TABLE_NAME = "currency.shedlock";
+  private static final String TABLE_NAME = "transact.shedlock";
   @Bean
   public LockProvider lockProvider(DataSource dataSource) {
     return new JdbcTemplateLockProvider(dataSource, TABLE_NAME);

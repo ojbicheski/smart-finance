@@ -10,11 +10,9 @@ import java.time.LocalDate;
 @Component
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "exchange.schedule")
+@ConfigurationProperties(prefix = "async.executor")
 public class AsyncProperties {
-  private String startDate = "2017-01-01";
-
-  public LocalDate startDate() {
-    return LocalDate.parse(startDate);
-  }
+  private int maxPoolSize   = 10;
+  private int corePoolSize  = 5;
+  private int queueCapacity = 5;
 }

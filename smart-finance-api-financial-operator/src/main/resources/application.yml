@@ -1,0 +1,31 @@
+server:
+  port: 9091
+
+spring:
+
+  application:
+    name: smart-finance-api-financial-operator
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+# Messages
+messages:
+  validation:
+    format:
+      extension:
+        Size: Extension size limited at min 3 and max 5 characters
+        NotNull: Extension field is required
+    operator:
+      swiftCode:
+        Size: Swift Code size limited at min 8 and max 15 characters
+        NotNull: Swift Code field is required
+      name:
+        Size: Name size limited at min 4 and max 255 characters
+        NotNull: Name field is required
+      display:
+        Size: Name size limited at min 4 and max 100 characters
+        NotNull: Name field is required

@@ -1,0 +1,26 @@
+{
+  "file": {
+    "account": "aff869fd-1fd6-4892-b825-de38be531f21",
+    "reference": "2423dc8e-eb53-46cd-93d5-dcbf6f2be736",
+    "fileName": "Balance-201708.csv"
+  },
+  "line": {
+    "id": 1,
+    "number": 1
+  },
+  "event": {
+    "date": [
+      2017,
+      8,
+      31
+    ],
+    "name": "POS Purchase",
+    "description": "CAPILANO UNIVERSITY BO   N. VA",
+    "type": "DEBIT",
+    "amount": 39.9
+  },
+  "response": {
+    "status": "LOADED",
+    "message": "File line converted to Transact."
+  }
+}

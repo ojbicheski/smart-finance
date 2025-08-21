@@ -6,6 +6,7 @@ import com.smartfinance.loader.exception.NotFoundException;
 import com.smartfinance.loader.repository.AccountRepository;
 import com.smartfinance.loader.repository.FileRepository;
 import com.smartfinance.mapper.Mapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,16 +18,16 @@ import java.util.UUID;
 public class UploadService {
   private final FileRepository fileRepository;
   private final AccountRepository accountRepository;
-  private final Mapper<File, FileDTO> fileMapper;
 
-  public FileDTO upload(UUID account, MultipartFile file) {
+  @Transactional
+  public File upload(UUID account, MultipartFile file) {
     File entity = File.builder()
         .file(file)
         .account(accountRepository.findByReference(account)
             .orElseThrow(() -> new NotFoundException("Customer Account not found.")))
         .build();
 
-    return fileMapper.toDto(fileRepository.save(entity));
+    return fileRepository.saveAndFlush(entity);
   }
 
 //  @Transactional

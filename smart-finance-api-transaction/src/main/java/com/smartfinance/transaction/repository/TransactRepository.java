@@ -1,6 +1,7 @@
 package com.smartfinance.transaction.repository;
 
-import com.smartfinance.transaction.entity.expense.Group;
+import com.smartfinance.customer.entity.Account;
+import com.smartfinance.transaction.entity.Transact;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,20 +12,35 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface TransactRepository extends JpaRepository<Group, Long> {
-  default Optional<Group> findByReference(UUID reference) {
+public interface TransactRepository extends JpaRepository<Transact, Long> {
+  default Optional<Transact> findByReference(UUID reference) {
     return this.findOne(
         Example.of(
-            Group.builder().reference(reference).build(),
-            Group.matcherRef
+            Transact.builder().reference(reference).build(),
+            Transact.matcherRef
         )
     );
   }
 
-  default List<Group> search(Group group) {
-    return this.findAll(Example.of(group, group.matcher()));
-  }
+  @Query("SELECT t FROM Transact t " +
+      "WHERE t.date = :#{#transact.date} " +
+      "AND t.name = :#{#transact.name} " +
+      "AND t.description = :#{#transact.description} " +
+      "AND t.type = :#{#transact.type} " +
+      "AND t.year = :#{#transact.year} " +
+      "AND t.month = :#{#transact.month} " +
+      "AND t.account.id = :#{#transact.account.id}")
+  List<Transact> findDuplicated(Transact transact);
 
-  @Query("select g from Group g where g.customer.reference = :customer and g.active = :active")
-  List<Group> findByCustomerReferenceAndActive(UUID customer, boolean active);
+  @Query("SELECT t from Transact t " +
+      "WHERE t.account.id = :#{#account.id} " +
+      "AND balanced = false")
+  List<Transact> transactionsToUpdateBalance(Account account);
+
+//  default List<Transact> search(Transact transact) {
+//    return this.findAll(Example.of(transact, transact.matcher()));
+//  }
+
+//  @Query("select g from Group g where g.customer.reference = :customer and g.active = :active")
+//  List<Group> findByCustomerReferenceAndActive(UUID customer, boolean active);
 }

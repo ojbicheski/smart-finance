@@ -3,7 +3,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/smart_finance
-    username: sf_financial_loader_user
+    username: sf_financial_operator_user
     password: P@ssw0rd
 
 #    hikari:
@@ -29,5 +29,5 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-    default-schema: financial_loader
+    default-schema: financial_operator
     enabled: true

@@ -12,10 +12,9 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDetailDTO {
   private UUID reference;
-  private String code;
   private String name;
+  private String description;
   private boolean active;
 
-  private TypeDTO type;
-  private TemplateDTO template;
+  private ProductDTO product;
 }

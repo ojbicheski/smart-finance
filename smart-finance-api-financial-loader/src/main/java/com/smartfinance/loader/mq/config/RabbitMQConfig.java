@@ -2,10 +2,6 @@ package com.smartfinance.loader.mq.config;
 
 import brave.Tracing;
 import brave.spring.rabbit.SpringRabbitTracing;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -17,28 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableRabbit
 public class RabbitMQConfig {
-  public static final String EXCHANGE_NAME = "smart-finance-loader-exchange";
-  public static final String LOADER_Q_NAME = "smart-finance-loader";
+  public static final String LOADER_EXCHANGE = "smart-finance.loader.exchange";
+  public static final String LOADER_QUEUE = "smart-finance.loader.queue";
+  public static final String ROUTING_KEY_TRIGGER_TRANSACT = "com.smart-finance.loader.trigger";
 
-  public static final String ROUTING_KEY_TRIGGER_TRANSACT = "com.smart-finance.loader.trigger.transact";
+  public static final String LOADER_TRANSACT_EXCHANGE = "smart-finance.loader.transact.exchange";
+  public static final String ROUTING_KEY_TRANSACT_EVT = "com.smart-finance.transact.event";
 
-  @Bean
-  public Queue queue() {
-    return new Queue(LOADER_Q_NAME, true);
-  }
-
-  @Bean
-  public TopicExchange exchange() {
-    return new TopicExchange(EXCHANGE_NAME, true, false);
-  }
-
-  @Bean
-  public Binding binding(Queue queue, TopicExchange exchange) {
-    return BindingBuilder
-        .bind(queue)
-        .to(exchange)
-        .with("com.smart-finance.loader.#");
-  }
+  public static final String TRANSACT_LOADER_EXCHANGE = "smart-finance.transact.loader.exchange";
+  public static final String TRANSACT_LOADER_QUEUE = "smart-finance.transact.loader.queue";
+  public static final String ROUTING_KEY_RESP_TRANSACT = "com.smart-finance.transact.response";
 
   @Bean
   public SpringRabbitTracing springRabbitTracing(Tracing tracing) {
@@ -48,8 +32,10 @@ public class RabbitMQConfig {
   }
 
   @Bean
-  public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, SpringRabbitTracing tracing) {
-    return tracing.newRabbitTemplate(connectionFactory);
+  public RabbitTemplate rabbitTemplate(
+      ConnectionFactory connectionFactory,
+      SpringRabbitTracing springRabbitTracing) {
+    return springRabbitTracing.newRabbitTemplate(connectionFactory);
   }
 
   @Bean

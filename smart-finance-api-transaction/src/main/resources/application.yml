@@ -1,0 +1,50 @@
+server:
+  port: 9095
+
+spring:
+
+  application:
+    name: smart-finance-api-transaction
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+async:
+  executor:
+    max-pool-size: 10
+    core-pool-size: 5
+    queue-capacity: 5
+
+## CRON Jobs - Samples
+# Run each 5 minutes: "0 */5 * ? * *"
+# Run each 1 hour: "0 0/1 * * * ?"
+# Run every 5th minute (0, 5, 10, ..., 55): "* */5 * * * *"
+cron:
+  job:
+    update-balances: "* */5 * * * *"
+
+client:
+  operator:
+      resource:
+        template: /api/v1/templates/{reference}
+      timeout:
+        connection: 10000 # 10 secs
+        response: 10000 # 10 secs
+        read: 60000 # 1 minute
+        write: 10000 # 10 secs
+
+# Messages
+messages:
+  validation:
+
+    expense:
+      group:
+        name:
+          Size: Description size limited at min 2 and max 100 characters
+          NotNull: Name field is required
+        description:
+          Size: Description size limited at min 8 and max 255 characters
+          NotNull: Description field is required

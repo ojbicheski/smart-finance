@@ -9,5 +9,7 @@ import java.util.UUID;
 @Setter
 public class LineDTO {
   private UUID reference;
-  private String name;
+  private int lineNumber;
+  private String line;
+  private String status;
 }

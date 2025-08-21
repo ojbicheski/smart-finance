@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FileController extends CommonController {
-  ResponseEntity<FileDTO> upload(
-      @RequestHeader(name = "x-sf-account-ref") UUID account,
-      @RequestParam("file") MultipartFile file);
   ResponseEntity<FileDTO> get(
       @PathVariable UUID reference);
   List<FileDTO> list(
       @RequestHeader(name = "x-sf-account-ref") UUID account);
+  ResponseEntity<Void> reprocess(
+      @PathVariable UUID reference);
 }

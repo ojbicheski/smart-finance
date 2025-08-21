@@ -17,11 +17,6 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Customer extends AbstractReference {
-  @Column(nullable = false)
-  private String name;
-  @Column(nullable = false)
-  private boolean active = true;
-
   @Builder
   public Customer(UUID reference) {
     super(reference);

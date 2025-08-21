@@ -1,28 +1,27 @@
 package com.smartfinance.customer.repository;
 
-import com.smartfinance.transaction.entity.Transact;
+import com.smartfinance.customer.entity.Account;
+import com.smartfinance.customer.entity.Customer;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Transact, Long> {
-  default Optional<Transact> findByReference(UUID reference) {
+public interface AccountRepository extends JpaRepository<Account, Long> {
+  default Optional<Account> findByReference(UUID reference) {
     return this.findOne(
         Example.of(
-            Transact.builder().reference(reference).build(),
-            Transact.matcherRef
+            Account.builder().reference(reference).build(),
+            Account.matcherRef
         )
     );
   }
 
-//  default List<Transact> search(Transact transact) {
-//    return this.findAll(Example.of(transact, transact.matcher()));
-//  }
-
-//  @Query("select g from Group g where g.customer.reference = :customer and g.active = :active")
-//  List<Group> findByCustomerReferenceAndActive(UUID customer, boolean active);
+  @Query("SELECT a from Account a where a.customer.id = :#{#customer.id}")
+  List<Account> findByCustomer(Customer customer);
 }

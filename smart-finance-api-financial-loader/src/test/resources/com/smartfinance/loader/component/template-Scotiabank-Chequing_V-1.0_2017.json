@@ -1,0 +1,66 @@
+{
+  "reference": "57e3c622-6cda-4455-b838-15727f59096b",
+  "name": "Chequing Account",
+  "description": "Template to load chequing account data",
+  "templateVersion": "V-1.0_2017",
+  "active": true,
+  "format": {
+    "reference": "37fa981e-dd6b-40c4-b8b8-da382d3f462c",
+    "extension": "csv",
+    "active": true
+  },
+  "layout": {
+    "ignoreLines": [],
+    "positions": [
+      {
+        "sequence": 0,
+        "type": "DATE",
+        "format": "M/d/yy",
+        "mapTo": "Transact.Date",
+        "function": null,
+        "set": "DATE",
+        "removeCharacters": []
+      },
+      {
+        "sequence": 3,
+        "type": "STRING",
+        "format": "None",
+        "mapTo": "Transact.Name",
+        "function": null,
+        "set": "STRING",
+        "removeCharacters": [
+          "\""
+        ]
+      },
+      {
+        "sequence": 4,
+        "type": "STRING",
+        "format": "None",
+        "mapTo": "Transact.Description",
+        "function": null,
+        "set": "STRING",
+        "removeCharacters": [
+          "\""
+        ]
+      },
+      {
+        "sequence": 1,
+        "type": "DECIMAL",
+        "format": "#0.00",
+        "mapTo": "Transact.Type",
+        "function": "function call(input) { return input > 0 ? 'CREDIT' : 'DEBIT'; }",
+        "set": "STRING",
+        "removeCharacters": []
+      },
+      {
+        "sequence": 1,
+        "type": "DECIMAL",
+        "format": "#0.00",
+        "mapTo": "Transact.Value",
+        "function": "function call(input) { return input > 0 ? input : parseFloat(input * -1); }",
+        "set": "DECIMAL",
+        "removeCharacters": []
+      }
+    ]
+  }
+}

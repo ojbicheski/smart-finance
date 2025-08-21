@@ -15,6 +15,7 @@ public interface TemplateController extends CommonController {
       @RequestHeader("x-sf-operator-ref") UUID operator,
       @RequestBody TemplateDTO template);
   ResponseEntity<TemplateDTO> get(UUID reference);
+  ResponseEntity<TemplateDTO> getByOperator(UUID operator);
   List<TemplateDTO> list(
       @RequestHeader("x-sf-operator-ref") UUID operator,
       @RequestParam(defaultValue = "true") boolean active);

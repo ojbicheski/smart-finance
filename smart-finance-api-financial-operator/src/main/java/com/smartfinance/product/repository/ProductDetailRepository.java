@@ -1,6 +1,6 @@
 package com.smartfinance.product.repository;
 
-import com.smartfinance.product.entity.Product;
+import com.smartfinance.product.entity.ProductDetail;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,16 +11,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ProductDetailRepository extends JpaRepository<Product, Long> {
-  default Optional<Product> findByReference(UUID reference) {
+public interface ProductDetailRepository extends JpaRepository<ProductDetail, Long> {
+  default Optional<ProductDetail> findByReference(UUID reference) {
     return this.findOne(
         Example.of(
-            Product.builder().reference(reference).build(),
-            Product.matcherRef
+            ProductDetail.builder().reference(reference).build(),
+            ProductDetail.matcherRef
         )
     );
   }
 
-  @Query("select p from Product p where p.type.operator.reference = :operator and p.active = :active")
-  List<Product> findByOperatorAndActive(UUID operator, boolean active);
+  @Query("select p from ProductDetail p where p.product.reference = :product and p.active = :active")
+  List<ProductDetail> findByProductAndActive(UUID product, boolean active);
 }

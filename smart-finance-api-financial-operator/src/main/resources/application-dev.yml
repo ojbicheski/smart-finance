@@ -1,6 +1,6 @@
 logging:
   level:
     org.hibernate: DEBUG
-    org.flywaydb: DEBUG
-    com.smartfinance.customer: DEBUG
+    org.flywaydb: INFO
+    com.smartfinance: DEBUG
     org.springframework.security: TRACE

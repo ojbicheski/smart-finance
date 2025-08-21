@@ -1,4 +1,26 @@
 package com.smartfinance.operator.repository;
 
-public class OperatorRepository {
+import com.smartfinance.operator.entity.Operator;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface OperatorRepository extends JpaRepository<Operator, Long> {
+  default Optional<Operator> findByReference(UUID reference) {
+    return this.findOne(
+        Example.of(
+            Operator.builder().reference(reference).build(),
+            Operator.matcherRef
+        )
+    );
+  }
+
+  @Query("select o from Operator o where o.country.reference = :country")
+  List<Operator> findByCountry(UUID country);
 }

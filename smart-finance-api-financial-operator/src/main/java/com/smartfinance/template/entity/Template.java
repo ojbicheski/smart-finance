@@ -9,9 +9,9 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Entity
 @Table(schema = "financial_operator", name = "tb_template_file")
@@ -32,11 +32,11 @@ public class Template extends AbstractReference implements Activation {
   @Column(columnDefinition = "jsonb")
   private Layout layout;
 
-  @ManyToOne
-  @JoinColumn(name="format_id", nullable=false, updatable = false)
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "format_id", nullable = false, updatable = false)
   private Format format;
   @ManyToOne
-  @JoinColumn(name="operator_id", nullable=false, updatable = false)
+  @JoinColumn(name = "operator_id", nullable = false, updatable = false)
   private Operator operator;
 
   @Builder
@@ -47,8 +47,15 @@ public class Template extends AbstractReference implements Activation {
   @Setter
   @Getter
   public static class Layout {
-    private int[] ignoreLines;
+    private List<IgnoreLine> ignoreLines;
     private List<Position> positions;
+  }
+
+  @Setter
+  @Getter
+  public static class IgnoreLine {
+    private String starts; // Top-Down; Bottom-Up
+    private int line;
   }
 
   @Setter
@@ -56,20 +63,27 @@ public class Template extends AbstractReference implements Activation {
   public static class Position {
     private int sequence;
     private PositionType type;
+    private String format;
     private String mapTo;
+    private String function;
+    private PositionType set;
     private String[] removeCharacters;
 
     public void setType(String type) {
       if (type == null) return;
       this.type = PositionType.of(type);
     }
+    public void setSet(String set) {
+      if (set == null) return;
+      this.set = PositionType.of(set);
+    }
   }
 
-  public static enum PositionType {
+  public enum PositionType {
     STRING, DECIMAL, DATE;
 
     public static PositionType of(String type) {
-      return Arrays.stream(values())
+      return Stream.of(values())
           .filter(t -> t.name().equalsIgnoreCase(type))
           .findFirst()
           .orElseThrow(() -> new BadRequestException("Type %s is invalid.".formatted(type)));

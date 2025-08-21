@@ -1,44 +1,28 @@
 package com.smartfinance.transaction.repository;
 
-import com.smartfinance.customer.entity.Account;
-import com.smartfinance.transaction.entity.Transact;
+import com.smartfinance.transaction.entity.Balance;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BalanceRepository extends JpaRepository<Transact, Long> {
-  default Optional<Transact> findByReference(UUID reference) {
+public interface BalanceRepository extends JpaRepository<Balance, Long> {
+  default Optional<Balance> findByReference(UUID reference) {
     return this.findOne(
         Example.of(
-            Transact.builder().reference(reference).build(),
-            Transact.matcherRef
+            Balance.builder().reference(reference).build(),
+            Balance.matcherRef
         )
     );
   }
 
-  @Query("SELECT t FROM Transact t " +
-      "WHERE t.date = :#{#transact.date} " +
-      "AND t.name = :#{#transact.name} " +
-      "AND t.description = :#{#transact.description} " +
-      "AND t.type = :#{#transact.type} " +
-      "AND t.year = :#{#transact.year} " +
-      "AND t.month = :#{#transact.month} " +
-//      "AND t.amount = :#{#transact.amount} " +
-      "AND t.account.id = :#{#transact.account.id}")
-  List<Transact> findDuplicated(Transact transact);
-
-  List<Transact> transactionsToUpdateBalance(Account account);
-
-//  default List<Transact> search(Transact transact) {
-//    return this.findAll(Example.of(transact, transact.matcher()));
-//  }
-
-//  @Query("select g from Group g where g.customer.reference = :customer and g.active = :active")
-//  List<Group> findByCustomerReferenceAndActive(UUID customer, boolean active);
+//  @Query("SELECT b FROM Balance b " +
+//      "WHERE b.account.id = :accountId " +
+//      "ORDER BY DESC b.year, b.month " +
+//      "FETCH FIRST 1 ROWS ONLY")
+//  Optional<Balance> findByAccount(long accountId);
+  Optional<Balance> findTopByAccountIdOrderByYearDescMonthDesc(long accountId);
 }

@@ -1,0 +1,21 @@
+logging:
+  level:
+    org.hibernate: INFO
+    org.flywaydb: DEBUG
+    com.smartfinance.customer: DEBUG
+    com.smartfinance.loader: DEBUG
+    org.springframework.security: TRACE
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: sf-user
+    password: P@ssw0rd
+
+client:
+  operator:
+    host: http://localhost:9091
+    auth:
+      user: spring
+      password: secret

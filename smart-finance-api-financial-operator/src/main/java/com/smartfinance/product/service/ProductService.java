@@ -2,14 +2,15 @@ package com.smartfinance.product.service;
 
 import com.smartfinance.mapper.Mapper;
 import com.smartfinance.operator.exception.NotFoundException;
-import com.smartfinance.operator.service.OperatorService;
-import com.smartfinance.product.dto.TypeDTO;
-import com.smartfinance.product.entity.Type;
-import com.smartfinance.product.repository.TypeRepository;
+import com.smartfinance.product.dto.ProductDTO;
+import com.smartfinance.product.entity.Product;
+import com.smartfinance.product.repository.ProductRepository;
 import com.smartfinance.template.exception.ConflictException;
+import com.smartfinance.template.service.TemplateService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,34 +19,36 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class ProductService {
-  private final TypeRepository repository;
-  private final Mapper.Builder<Type, TypeDTO> typeMapperBuilder;
-  private final OperatorService operatorService;
+  private final ProductRepository repository;
+  private final Mapper.Builder<Product, ProductDTO> productMapperBuilder;
+  private final TypeService typeService;
+  private final TemplateService templateService;
 
-  public Type get(UUID reference) {
+  public Product get(UUID reference) {
     return repository.findByReference(reference)
-        .orElseThrow(() -> new NotFoundException("Type not found"));
+        .orElseThrow(() -> new NotFoundException("Product not found"));
   }
 
   @Transactional
-  public TypeDTO save(UUID operator, TypeDTO dto) {
-    Type entity = typeMapperBuilder.entityMapper().entity(dto);
-    entity.setOperator(operatorService.get(operator));
+  public ProductDTO save(ProductDTO dto) {
+    Product entity = productMapperBuilder.entityMapper().entity(dto);
+    entity.setType(typeService.get(dto.getType().getReference()));
+    entity.setTemplate(templateService.get(dto.getTemplate().getReference()));
     entity.activate();
 
     entity = repository.saveAndFlush(entity);
-    return typeMapperBuilder.dtoMapper().dto(
+    return productMapperBuilder.dtoMapper().dto(
         repository.getReferenceById(entity.getId())
     );
   }
 
-  public TypeDTO find(UUID reference) {
-    return typeMapperBuilder.dtoMapper().dto(get(reference));
+  public ProductDTO find(UUID reference) {
+    return productMapperBuilder.dtoMapper().dto(get(reference));
   }
 
-  public List<TypeDTO> list(UUID operator, boolean active) {
+  public List<ProductDTO> list(UUID operator, boolean active) {
     return repository.findByOperatorAndActive(operator, active).stream()
-        .map(typeMapperBuilder.dtoMapper()::dto)
+        .map(productMapperBuilder.dtoMapper()::dto)
         .toList();
   }
 
@@ -53,8 +56,9 @@ public class ProductService {
   public void delete(UUID reference) {
     try {
       repository.delete(get(reference));
-    } catch (ConstraintViolationException e) {
-      throw new ConflictException("Type is being used by another record. Delete can't be executed.", e);
+      repository.flush();
+    } catch (ConstraintViolationException | DataIntegrityViolationException e) {
+      throw new ConflictException("Product is being used by another record. Delete can't be executed.", e);
     }
   }
 }

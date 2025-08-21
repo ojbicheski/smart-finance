@@ -1,9 +1,9 @@
 package com.smartfinance.config;
 
-import com.smartfinance.currency.dto.CountryDTO;
-import com.smartfinance.currency.dto.CurrencyDTO;
-import com.smartfinance.currency.entity.Country;
-import com.smartfinance.currency.entity.Currency;
+import com.smartfinance.loader.dto.FileDTO;
+import com.smartfinance.loader.dto.LineDTO;
+import com.smartfinance.loader.entity.File;
+import com.smartfinance.loader.entity.Line;
 import com.smartfinance.mapper.Mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MapperConfig {
   @Bean
-  public static Mapper<Currency, CurrencyDTO> currencyMapper() {
-    return new Mapper<>(Currency.class, CurrencyDTO.class);
+  public static Mapper.Builder<File, FileDTO> fileMapperBuilder() {
+    return new Mapper.Builder<>(File.class, FileDTO.class);
   }
   @Bean
-  public static Mapper<Country, CountryDTO> countryMapper() {
-    return new Mapper<>(Country.class, CountryDTO.class);
+  public Mapper.Builder<Line, LineDTO> fileLineMapperBuilder() {
+    return new Mapper.Builder<>(Line.class, LineDTO.class);
   }
 }
