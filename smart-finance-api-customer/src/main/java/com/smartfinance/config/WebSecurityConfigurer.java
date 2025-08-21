@@ -1,4 +1,4 @@
-package com.smartfinance.customer.config;
+package com.smartfinance.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

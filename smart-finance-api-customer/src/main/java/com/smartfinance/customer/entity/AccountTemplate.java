@@ -2,27 +2,32 @@ package com.smartfinance.customer.entity;
 
 import com.smartfinance.entity.AbstractReference;
 import com.smartfinance.operator.entity.Operator;
+import com.smartfinance.operator.entity.file.Template;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(schema = "customer", name = "tb_account")
+@Table(schema = "customer", name = "tb_account_template")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class AccountTemplate extends AbstractReference {
-  @Column(name = "number_acct", nullable = false)
-  private String number;
   @Column(nullable = false)
-  private String description;
+  private boolean active = true;
 
   @ManyToOne
-  @JoinColumn(name="customer_id", nullable=false)
-  private Customer customer;
+  @JoinColumn(name="account_id", nullable=false, updatable = false)
+  private Account account;
   @ManyToOne
-  @JoinColumn(name="account_type_id", nullable=false)
-  private AccountType type;
-  @ManyToOne
-  @JoinColumn(name="operator_id", nullable=false)
-  private Operator operator;
+  @JoinColumn(name="template_id", nullable=false, updatable = false)
+  private Template template;
+
+  @Builder
+  public AccountTemplate(Account account, Template template) {
+    this.account = account;
+    this.template = template;
+  }
 }

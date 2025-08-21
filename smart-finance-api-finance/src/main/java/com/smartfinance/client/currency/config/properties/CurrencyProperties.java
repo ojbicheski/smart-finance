@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "client.customer")
+@ConfigurationProperties(prefix = "client.currency")
 public class CurrencyProperties {
   private String host;
 

@@ -1,8 +1,8 @@
 package com.smartfinance.finance.controller.expense.v1.impl;
 
-import com.smartfinance.finance.controller.expense.v1.GroupController;
-import com.smartfinance.finance.dto.expense.GroupDTO;
-import com.smartfinance.finance.service.GroupService;
+import com.smartfinance.finance.controller.expense.v1.ExpenseTypeController;
+import com.smartfinance.finance.dto.expense.ExpenseTypeDTO;
+import com.smartfinance.finance.service.ExpenseTypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/groups")
+@RequestMapping("/api/v1/expense/group/types")
 @AllArgsConstructor
-public class ExpenseTypeControllerImpl implements GroupController {
-  private final GroupService service;
+public class ExpenseTypeControllerImpl implements ExpenseTypeController {
+  private final ExpenseTypeService service;
 
   @PostMapping
   @Override
-  public ResponseEntity<GroupDTO> save(UUID customer, GroupDTO dto) {
-    return ResponseEntity.ok(service.save(customer, dto));
+  public ResponseEntity<ExpenseTypeDTO> save(UUID group, ExpenseTypeDTO dto) {
+    return ResponseEntity.ok(service.save(group, dto));
   }
 
   @GetMapping("/{reference}")
   @Override
-  public ResponseEntity<GroupDTO> find(UUID reference) {
+  public ResponseEntity<ExpenseTypeDTO> find(UUID reference) {
     return ResponseEntity.ok(service.find(reference));
   }
 
@@ -37,25 +37,25 @@ public class ExpenseTypeControllerImpl implements GroupController {
 
   @PutMapping("/{reference}/activate")
   @Override
-  public ResponseEntity<GroupDTO> activate(UUID reference) {
+  public ResponseEntity<ExpenseTypeDTO> activate(UUID reference) {
     return ResponseEntity.ok(service.activate(reference));
   }
 
   @PutMapping("/{reference}/deactivate")
   @Override
-  public ResponseEntity<GroupDTO> deactivate(UUID reference) {
+  public ResponseEntity<ExpenseTypeDTO> deactivate(UUID reference) {
     return ResponseEntity.ok(service.deactivate(reference));
   }
 
   @GetMapping
   @Override
-  public List<GroupDTO> list(UUID customer, boolean active) {
-    return service.list(customer, active);
+  public List<ExpenseTypeDTO> list(UUID group, boolean active) {
+    return service.list(group, active);
   }
 
   @PostMapping("/search")
   @Override
-  public List<GroupDTO> search(UUID customer, GroupDTO dto) {
+  public List<ExpenseTypeDTO> search(UUID group, ExpenseTypeDTO dto) {
     return List.of();
   }
 }

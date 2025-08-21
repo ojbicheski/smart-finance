@@ -2,11 +2,13 @@ package com.smartfinance.finance.entity.income;
 
 import com.smartfinance.customer.entity.Customer;
 import com.smartfinance.entity.AbstractReference;
+import com.smartfinance.entity.Activation;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.ExampleMatcher;
 
 import java.util.UUID;
 
@@ -15,7 +17,7 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class IncomeType extends AbstractReference {
+public class IncomeType extends AbstractReference implements Activation {
   @Column(nullable = false, updatable = false)
   private String name;
   @Column(nullable = false, updatable = false)
@@ -30,5 +32,20 @@ public class IncomeType extends AbstractReference {
   @Builder
   public IncomeType(UUID reference) {
     super(reference);
+  }
+
+  public ExampleMatcher matcher() {
+    ExampleMatcher matcher = ExampleMatcher.matching()
+        .withIgnorePaths("id", "version", "reference")
+        .withIgnoreNullValues();
+
+    if (customer != null) {
+      matcher.withMatcher("customer", ExampleMatcher.GenericPropertyMatcher::exact);
+    }
+    if (name != null) {
+      matcher.withMatcher("name", ExampleMatcher.GenericPropertyMatcher::startsWith);
+    }
+
+    return matcher;
   }
 }

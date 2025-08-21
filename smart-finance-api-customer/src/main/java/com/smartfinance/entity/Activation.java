@@ -3,11 +3,13 @@ package com.smartfinance.entity;
 public interface Activation {
   void setActive(boolean active);
 
-  default void activate() {
+  default Activation activate() {
     setActive(true);
+    return this;
   }
 
-  default void deactivate() {
+  default Activation deactivate() {
     setActive(false);
+    return this;
   }
 }

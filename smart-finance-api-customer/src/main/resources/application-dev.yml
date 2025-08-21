@@ -1,13 +1,6 @@
-server:
-  port: 9090
-
-spring:
-
-  application:
-    name: smart-finance-api-customer
-
-  flyway:
-    validate-on-migrate: true
-    baseline-on-migrate: true
-    locations: classpath:db/migration
-    enabled: false
+logging:
+  level:
+    org.hibernate: INFO
+    org.flywaydb: DEBUG
+    com.smartfinance.customer: DEBUG
+    org.springframework.security: DEBUG

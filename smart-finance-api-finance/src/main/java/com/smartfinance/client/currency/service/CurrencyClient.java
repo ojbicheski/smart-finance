@@ -25,7 +25,7 @@ public class CurrencyClient {
 
   @Cacheable(
       value = "exchange-from-countries-target",
-      key = "new SimpleKey(#request.from, #request.countries, #request.target)"
+      key = "#request.from + '_' + #request.target"
   )
   public List<Exchange> exchanges(CountriesDateRequest request) {
     return currency.post()

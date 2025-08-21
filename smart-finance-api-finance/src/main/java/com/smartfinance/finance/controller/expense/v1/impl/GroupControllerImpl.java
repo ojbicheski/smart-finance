@@ -1,8 +1,8 @@
 package com.smartfinance.finance.controller.expense.v1.impl;
 
-import com.smartfinance.operator.controller.v1.OperatorController;
-import com.smartfinance.operator.dto.OperatorDTO;
-import com.smartfinance.operator.service.OperatorService;
+import com.smartfinance.finance.controller.expense.v1.GroupController;
+import com.smartfinance.finance.dto.expense.GroupDTO;
+import com.smartfinance.finance.service.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/operators")
+@RequestMapping("/api/v1/expense/groups")
 @AllArgsConstructor
-public class GroupControllerImpl implements OperatorController {
-  private final OperatorService service;
+public class GroupControllerImpl implements GroupController {
+  private final GroupService service;
 
   @PostMapping
   @Override
-  public ResponseEntity<OperatorDTO> save(UUID country, OperatorDTO operatorDTO) {
-    return ResponseEntity.ok(service.save(country, operatorDTO));
+  public ResponseEntity<GroupDTO> save(UUID customer, GroupDTO dto) {
+    return ResponseEntity.ok(service.save(customer, dto));
   }
 
   @GetMapping("/{reference}")
   @Override
-  public ResponseEntity<OperatorDTO> get(UUID reference) {
+  public ResponseEntity<GroupDTO> find(UUID reference) {
     return ResponseEntity.ok(service.find(reference));
   }
 
@@ -35,9 +35,27 @@ public class GroupControllerImpl implements OperatorController {
     return ResponseEntity.ok().build();
   }
 
+  @PutMapping("/{reference}/activate")
+  @Override
+  public ResponseEntity<GroupDTO> activate(UUID reference) {
+    return ResponseEntity.ok(service.activate(reference));
+  }
+
+  @PutMapping("/{reference}/deactivate")
+  @Override
+  public ResponseEntity<GroupDTO> deactivate(UUID reference) {
+    return ResponseEntity.ok(service.deactivate(reference));
+  }
+
   @GetMapping
   @Override
-  public List<OperatorDTO> list(UUID country) {
-    return service.list(country);
+  public List<GroupDTO> list(UUID customer, boolean active) {
+    return service.list(customer, active);
+  }
+
+  @PostMapping("/search")
+  @Override
+  public List<GroupDTO> search(UUID customer, GroupDTO dto) {
+    return List.of();
   }
 }

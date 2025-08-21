@@ -2,9 +2,6 @@ package com.smartfinance.finance.entity.income;
 
 import com.smartfinance.customer.entity.Customer;
 import com.smartfinance.entity.AbstractReference;
-import com.smartfinance.finance.entity.expense.Status;
-import com.smartfinance.finance.entity.expense.Type;
-import com.smartfinance.finance.entity.expense.Value;
 import com.smartfinance.transaction.entity.Transact;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -14,22 +11,23 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "finance", name = "tb_expense")
+@Table(schema = "finance", name = "tb_income")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Income extends AbstractReference {
-  @Column(name = "expense_date", nullable = false, updatable = false)
+  @Column(name = "income_date", nullable = false, updatable = false)
   private LocalDate date;
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private Status status;
-  @Column(name = "expense_month", nullable = false, updatable = false)
+  @Column(name = "income_month", nullable = false, updatable = false)
   private int month;
-  @Column(name = "expense_year", nullable = false, updatable = false)
+  @Column(name = "income_year", nullable = false, updatable = false)
   private int year;
 
   @ManyToOne
@@ -41,28 +39,29 @@ public class Income extends AbstractReference {
   private Customer customer;
 
   @ManyToOne
-  @JoinColumn(name="expense_type_id", nullable=false, updatable = false)
-  private com.smartfinance.finance.entity.expense.Type type;
+  @JoinColumn(name="income_type_id", updatable = false)
+  private IncomeType type;
 
-  @OneToMany(mappedBy = "expense")
-  private List<Value> values;
+  @OneToMany(mappedBy = "income",
+      fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL
+  )
+  private List<IncomeValue> values;
 
   @Builder
-  public Income(UUID reference, LocalDate date, Status status,
-                Transact transact, Customer customer, Type type) {
+  public Income(UUID reference, Status status,
+                Transact transact, Customer customer,
+                List<IncomeValue> values) {
     super(reference);
-    this.date = date;
-    if (status != null) {
-      this.status = status;
-    } else {
-      status = Status.PENDING;
-    }
+    this.date = transact.getDate();
+    this.status = Objects.requireNonNullElse(status, Status.PENDING);
     if (date != null) {
       this.month = date.getMonthValue();
       this.year = date.getYear();
     }
     this.transact = transact;
     this.customer = customer;
-    this.type = type;
+    values.forEach(v -> v.setIncome(this));
+    this.values = values;
   }
 }

@@ -1,0 +1,79 @@
+server:
+  port: 9094
+
+spring:
+
+  application:
+    name: smart-finance-api-finance
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+# Caffeine Caches
+cache:
+  memory:
+    cache-map:
+
+      customer-countries:
+        initial-capacity: 1
+        maximum-size: 5
+        expire-after-access: 10
+
+      exchange-from-countries-target:
+        initial-capacity: 1
+        maximum-size: 5
+        expire-after-access: 10
+
+# Web Clients
+client:
+
+  currency:
+    resource:
+      countries-date: /api/v1/exchanges/countries-date # POST
+    timeout:
+      connection: 10000 # 10 secs
+      response: 10000 # 10 secs
+      read: 60000 # 1 minute
+      write: 10000 # 10 secs
+
+  customer:
+    resource:
+      countries: /api/v1/customers/{customer}/preferences/countries # GET
+    timeout:
+      connection: 10000 # 10 secs
+      response: 10000 # 10 secs
+      read: 60000 # 1 minute
+      write: 10000 # 10 secs
+
+# Messages
+messages:
+  validation:
+
+    expense:
+      group:
+        name:
+          Size: Description size limited at min 2 and max 100 characters
+          NotNull: Name field is required
+        description:
+          Size: Description size limited at min 8 and max 255 characters
+          NotNull: Description field is required
+
+        type:
+          name:
+            Size: Description size limited at min 2 and max 100 characters
+            NotNull: Name field is required
+          description:
+            Size: Description size limited at min 8 and max 255 characters
+            NotNull: Description field is required
+
+    income:
+      type:
+        name:
+          Size: Description size limited at min 2 and max 100 characters
+          NotNull: Name field is required
+        description:
+          Size: Description size limited at min 8 and max 255 characters
+          NotNull: Description field is required

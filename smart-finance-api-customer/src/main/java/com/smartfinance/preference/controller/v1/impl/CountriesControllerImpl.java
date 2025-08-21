@@ -1,43 +1,30 @@
 package com.smartfinance.preference.controller.v1.impl;
 
-import com.smartfinance.customer.controller.v1.CustomerController;
-import com.smartfinance.customer.dto.CustomerDTO;
-import com.smartfinance.customer.service.CustomerService;
+import com.smartfinance.preference.controller.v1.CountriesController;
+import com.smartfinance.preference.service.CountriesService;
+import com.smartfinance.shared.dto.CountryDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/customers")
-public class CountriesControllerImpl implements CustomerController {
-  private final CustomerService service;
+@RequestMapping("/api/v1/customers/{customer}/preferences/countries")
+public class CountriesControllerImpl implements CountriesController {
+  private final CountriesService service;
 
-  @DeleteMapping("/{reference}")
+  @GetMapping
   @Override
-  public ResponseEntity<Void> del(UUID reference) {
-    service.delete(reference);
-    return ResponseEntity.ok().build();
-  }
-
-  @GetMapping("/{reference}")
-  @Override
-  public ResponseEntity<CustomerDTO> get(UUID reference) {
-    return ResponseEntity.ok(service.get(reference));
+  public List<CountryDTO> countries(UUID customer) {
+    return service.getCountries(customer);
   }
 
   @PostMapping
   @Override
-  public ResponseEntity<CustomerDTO> save(CustomerDTO customerDTO) {
-    return ResponseEntity.ok(service.save(customerDTO));
-  }
-
-  @GetMapping
-  @Override
-  public Page<CustomerDTO> list(String name, int page, int size, String orderBy, String direction) {
-    return service.list(name, page(page, size, orderBy, direction));
+  public ResponseEntity<Void> save(UUID customer, List<CountryDTO> countries) {
+    return ResponseEntity.ok().build();
   }
 }

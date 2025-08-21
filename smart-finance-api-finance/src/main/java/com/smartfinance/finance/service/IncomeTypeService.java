@@ -2,10 +2,10 @@ package com.smartfinance.finance.service;
 
 import com.smartfinance.customer.entity.Customer;
 import com.smartfinance.customer.repository.CustomerRepository;
-import com.smartfinance.finance.dto.expense.GroupDTO;
-import com.smartfinance.finance.entity.expense.Group;
+import com.smartfinance.finance.dto.income.IncomeTypeDTO;
+import com.smartfinance.finance.entity.income.IncomeType;
 import com.smartfinance.finance.exception.NotFoundException;
-import com.smartfinance.finance.repository.GroupRepository;
+import com.smartfinance.finance.repository.IncomeTypeRepository;
 import com.smartfinance.mapper.Mapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -19,37 +19,37 @@ import java.util.UUID;
 @Slf4j
 @AllArgsConstructor
 public class IncomeTypeService {
-  private final GroupRepository repository;
+  private final IncomeTypeRepository repository;
   private final CustomerRepository customerRepository;
-  public final Mapper.Builder<Group, GroupDTO> groupMapperBuilder;
+  public final Mapper.Builder<IncomeType, IncomeTypeDTO> incomeTypeMapperBuilder;
 
-  public Group get(UUID reference) {
+  public IncomeType get(UUID reference) {
     return repository.findByReference(reference)
-        .orElseThrow(() -> new NotFoundException("Group not found"));
+        .orElseThrow(() -> new NotFoundException("Income Type not found"));
   }
 
-  public GroupDTO find(UUID reference) {
-    return groupMapperBuilder.dtoMapper().dto(get(reference));
+  public IncomeTypeDTO find(UUID reference) {
+    return incomeTypeMapperBuilder.dtoMapper().dto(get(reference));
   }
 
   @Transactional
-  public List<GroupDTO> search(GroupDTO dto) {
-    Group entity = groupMapperBuilder.entityMapper().entity(dto);
+  public List<IncomeTypeDTO> search(IncomeTypeDTO dto) {
+    IncomeType entity = incomeTypeMapperBuilder.entityMapper().entity(dto);
     return repository.search(entity).stream()
-        .map(group -> groupMapperBuilder.dtoMapper().dto(group))
+        .map(IncomeType -> incomeTypeMapperBuilder.dtoMapper().dto(IncomeType))
         .toList();
   }
 
   @Transactional
-  public List<GroupDTO> list(UUID customer, boolean active) {
+  public List<IncomeTypeDTO> list(UUID customer, boolean active) {
     return repository.findByCustomerAndActive(customer, active).stream()
-        .map(group -> groupMapperBuilder.dtoMapper().dto(group))
+        .map(IncomeType -> incomeTypeMapperBuilder.dtoMapper().dto(IncomeType))
         .toList();
   }
 
   @Transactional
-  public GroupDTO save(UUID customer, GroupDTO dto) {
-    Group entity = groupMapperBuilder.entityMapper().entity(dto);
+  public IncomeTypeDTO save(UUID customer, IncomeTypeDTO dto) {
+    IncomeType entity = incomeTypeMapperBuilder.entityMapper().entity(dto);
 
     if (entity.isUpdate()) {
       entity = get(dto.getReference());
@@ -61,7 +61,7 @@ public class IncomeTypeService {
     }
 
     entity = repository.saveAndFlush(entity);
-    return groupMapperBuilder.dtoMapper().dto(
+    return incomeTypeMapperBuilder.dtoMapper().dto(
         repository.getReferenceById(entity.getId())
     );
   }
@@ -72,19 +72,19 @@ public class IncomeTypeService {
   }
 
   @Transactional
-  public GroupDTO activate(UUID reference) {
-    Group entity = get(reference);
+  public IncomeTypeDTO activate(UUID reference) {
+    IncomeType entity = get(reference);
     entity.activate();
-    return groupMapperBuilder.dtoMapper().dto(
+    return incomeTypeMapperBuilder.dtoMapper().dto(
         repository.saveAndFlush(entity)
     );
   }
 
   @Transactional
-  public GroupDTO deactivate(UUID reference) {
-    Group entity = get(reference);
+  public IncomeTypeDTO deactivate(UUID reference) {
+    IncomeType entity = get(reference);
     entity.deactivate();
-    return groupMapperBuilder.dtoMapper().dto(
+    return incomeTypeMapperBuilder.dtoMapper().dto(
         repository.saveAndFlush(entity)
     );
   }

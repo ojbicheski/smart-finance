@@ -1,0 +1,27 @@
+server:
+  port: 9092
+
+spring:
+
+  application:
+    name: smart-finance-api-customer
+
+  flyway:
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    enabled: false
+
+# Messages
+messages:
+  validation:
+
+    accountType:
+      description:
+        Size: Description size limited at min 8 and max 255 characters
+        NotNull: Description field is required
+
+    customer:
+      name:
+        Size: Name size limited at min 8 and max 255 characters
+        NotNull: Name field is required

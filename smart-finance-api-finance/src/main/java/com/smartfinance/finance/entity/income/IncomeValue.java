@@ -4,6 +4,7 @@ import com.smartfinance.currency.entity.Currency;
 import com.smartfinance.entity.AbstractBasic;
 import com.smartfinance.exchange.entity.Exchange;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,4 +29,13 @@ public class IncomeValue extends AbstractBasic {
   @ManyToOne
   @JoinColumn(name="exchange_id", updatable = false)
   private Exchange exchange;
+
+  @Builder
+  public IncomeValue(float amount, Income income,
+                     Currency currency, Exchange exchange) {
+    this.amount = amount;
+    this.income = income;
+    this.currency = currency;
+    this.exchange = exchange;
+  }
 }

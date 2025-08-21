@@ -1,10 +1,10 @@
 package com.smartfinance.finance.service;
 
-import com.smartfinance.customer.entity.Customer;
-import com.smartfinance.customer.repository.CustomerRepository;
-import com.smartfinance.finance.dto.expense.GroupDTO;
+import com.smartfinance.finance.dto.expense.ExpenseTypeDTO;
+import com.smartfinance.finance.entity.expense.ExpenseType;
 import com.smartfinance.finance.entity.expense.Group;
 import com.smartfinance.finance.exception.NotFoundException;
+import com.smartfinance.finance.repository.ExpenseTypeRepository;
 import com.smartfinance.finance.repository.GroupRepository;
 import com.smartfinance.mapper.Mapper;
 import jakarta.transaction.Transactional;
@@ -19,49 +19,49 @@ import java.util.UUID;
 @Slf4j
 @AllArgsConstructor
 public class ExpenseTypeService {
-  private final GroupRepository repository;
-  private final CustomerRepository customerRepository;
-  public final Mapper.Builder<Group, GroupDTO> groupMapperBuilder;
+  private final ExpenseTypeRepository repository;
+  private final GroupRepository incomenTypeRepository;
+  public final Mapper.Builder<ExpenseType, ExpenseTypeDTO> expenseTypeMapperBuilder;
 
-  public Group get(UUID reference) {
+  public ExpenseType get(UUID reference) {
     return repository.findByReference(reference)
         .orElseThrow(() -> new NotFoundException("Group not found"));
   }
 
-  public GroupDTO find(UUID reference) {
-    return groupMapperBuilder.dtoMapper().dto(get(reference));
+  public ExpenseTypeDTO find(UUID reference) {
+    return expenseTypeMapperBuilder.dtoMapper().dto(get(reference));
   }
 
   @Transactional
-  public List<GroupDTO> search(GroupDTO dto) {
-    Group entity = groupMapperBuilder.entityMapper().entity(dto);
+  public List<ExpenseTypeDTO> search(ExpenseTypeDTO dto) {
+    ExpenseType entity = expenseTypeMapperBuilder.entityMapper().entity(dto);
     return repository.search(entity).stream()
-        .map(group -> groupMapperBuilder.dtoMapper().dto(group))
+        .map(type -> expenseTypeMapperBuilder.dtoMapper().dto(type))
         .toList();
   }
 
   @Transactional
-  public List<GroupDTO> list(UUID customer, boolean active) {
-    return repository.findByCustomerAndActive(customer, active).stream()
-        .map(group -> groupMapperBuilder.dtoMapper().dto(group))
+  public List<ExpenseTypeDTO> list(UUID group, boolean active) {
+    return repository.findByGroupAndActive(group, active).stream()
+        .map(type -> expenseTypeMapperBuilder.dtoMapper().dto(type))
         .toList();
   }
 
   @Transactional
-  public GroupDTO save(UUID customer, GroupDTO dto) {
-    Group entity = groupMapperBuilder.entityMapper().entity(dto);
+  public ExpenseTypeDTO save(UUID group, ExpenseTypeDTO dto) {
+    ExpenseType entity = expenseTypeMapperBuilder.entityMapper().entity(dto);
 
     if (entity.isUpdate()) {
       entity = get(dto.getReference());
       entity.setName(dto.getName());
       entity.setDescription(dto.getDescription());
     } else {
-      entity.setCustomer(customer(customer));
+      entity.setGroup(group(group));
       entity.activate();
     }
 
     entity = repository.saveAndFlush(entity);
-    return groupMapperBuilder.dtoMapper().dto(
+    return expenseTypeMapperBuilder.dtoMapper().dto(
         repository.getReferenceById(entity.getId())
     );
   }
@@ -72,26 +72,26 @@ public class ExpenseTypeService {
   }
 
   @Transactional
-  public GroupDTO activate(UUID reference) {
-    Group entity = get(reference);
+  public ExpenseTypeDTO activate(UUID reference) {
+    ExpenseType entity = get(reference);
     entity.activate();
-    return groupMapperBuilder.dtoMapper().dto(
+    return expenseTypeMapperBuilder.dtoMapper().dto(
         repository.saveAndFlush(entity)
     );
   }
 
   @Transactional
-  public GroupDTO deactivate(UUID reference) {
-    Group entity = get(reference);
+  public ExpenseTypeDTO deactivate(UUID reference) {
+    ExpenseType entity = get(reference);
     entity.deactivate();
-    return groupMapperBuilder.dtoMapper().dto(
+    return expenseTypeMapperBuilder.dtoMapper().dto(
         repository.saveAndFlush(entity)
     );
   }
 
-  private Customer customer(UUID reference) {
-    return customerRepository
+  private Group group(UUID reference) {
+    return incomenTypeRepository
         .findByReference(reference)
-        .orElseThrow(() -> new NotFoundException("Customer not found"));
+        .orElseThrow(() -> new NotFoundException("Group not found"));
   }
 }

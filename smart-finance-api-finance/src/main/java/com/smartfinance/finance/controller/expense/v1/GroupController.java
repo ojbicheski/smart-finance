@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +25,8 @@ public interface GroupController extends CommonController {
   ResponseEntity<GroupDTO> deactivate(
       @PathVariable("reference") UUID reference);
   List<GroupDTO> list(
-      @RequestHeader("x-sf-customer-ref") UUID customer);
+      @RequestHeader("x-sf-customer-ref") UUID customer,
+      @RequestParam(defaultValue = "true") boolean active);
   List<GroupDTO> search(
       @RequestHeader("x-sf-customer-ref") UUID customer,
       @RequestBody GroupDTO dto);

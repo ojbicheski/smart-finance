@@ -1,6 +1,6 @@
 package com.smartfinance.finance.repository;
 
-import com.smartfinance.finance.entity.expense.Group;
+import com.smartfinance.finance.entity.expense.ExpenseType;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,20 +11,20 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ExpenseTypeRepository extends JpaRepository<Group, Long> {
-  default Optional<Group> findByReference(UUID reference) {
+public interface ExpenseTypeRepository extends JpaRepository<ExpenseType, Long> {
+  default Optional<ExpenseType> findByReference(UUID reference) {
     return this.findOne(
         Example.of(
-            Group.builder().reference(reference).build(),
-            Group.matcherRef
+            ExpenseType.builder().reference(reference).build(),
+            ExpenseType.matcherRef
         )
     );
   }
 
-  default List<Group> search(Group group) {
-    return this.findAll(Example.of(group, group.matcher()));
+  default List<ExpenseType> search(ExpenseType expenseType) {
+    return this.findAll(Example.of(expenseType, expenseType.matcher()));
   }
 
-  @Query("select g from Group g where g.customer.reference = :customer and g.active = :active")
-  List<Group> findByCustomerAndActive(UUID customer, boolean active);
+  @Query("select et from ExpenseType et where et.group.reference = :group and et.active = :active")
+  List<ExpenseType> findByGroupAndActive(UUID group, boolean active);
 }

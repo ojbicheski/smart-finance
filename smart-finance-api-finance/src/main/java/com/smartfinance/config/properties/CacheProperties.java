@@ -5,35 +5,21 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "client.customer")
+@ConfigurationProperties(prefix = "cache.memory")
 public class CacheProperties {
-  private String host;
+  private Map<String, Setup> cacheMap = new HashMap<>();
 
-  private Resource resource;
   @Setter
   @Getter
-  public static class Resource {
-    private String countries;
-  }
-
-  private BasicAuth auth;
-  @Setter
-  @Getter
-  public static class BasicAuth {
-    private String user;
-    private String password;
-  }
-
-  private Timeout timeout;
-  @Setter
-  @Getter
-  public static class Timeout {
-    private int connection;
-    private int response;
-    private int read;
-    private int write;
+  public static class Setup {
+    private int initialCapacity = 10; // initial capacity
+    private int maximumSize = 100; // items stored
+    private int expireAfterAccess = 5; // Timeout to remove item from cache
   }
 }

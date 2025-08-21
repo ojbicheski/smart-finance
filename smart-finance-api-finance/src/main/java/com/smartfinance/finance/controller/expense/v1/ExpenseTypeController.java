@@ -1,7 +1,7 @@
 package com.smartfinance.finance.controller.expense.v1;
 
 import com.smartfinance.controller.CommonController;
-import com.smartfinance.finance.dto.expense.GroupDTO;
+import com.smartfinance.finance.dto.expense.ExpenseTypeDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,21 +13,21 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ExpenseTypeController extends CommonController {
-  ResponseEntity<GroupDTO> save(
-      @RequestHeader("x-sf-customer-ref") UUID customer,
-      @Valid @RequestBody GroupDTO dto);
-  ResponseEntity<GroupDTO> find(
+  ResponseEntity<ExpenseTypeDTO> save(
+      @RequestHeader("x-sf-group-ref") UUID group,
+      @Valid @RequestBody ExpenseTypeDTO dto);
+  ResponseEntity<ExpenseTypeDTO> find(
       @PathVariable("reference") UUID reference);
   ResponseEntity<Void> delete(
       @PathVariable("reference") UUID reference);
-  ResponseEntity<GroupDTO> activate(
+  ResponseEntity<ExpenseTypeDTO> activate(
       @PathVariable("reference") UUID reference);
-  ResponseEntity<GroupDTO> deactivate(
+  ResponseEntity<ExpenseTypeDTO> deactivate(
       @PathVariable("reference") UUID reference);
-  List<GroupDTO> list(
-      @RequestHeader("x-sf-customer-ref") UUID customer,
+  List<ExpenseTypeDTO> list(
+      @RequestHeader("x-sf-group-ref") UUID group,
       @RequestParam(defaultValue = "true") boolean active);
-  List<GroupDTO> search(
-      @RequestHeader("x-sf-customer-ref") UUID customer,
-      @RequestBody GroupDTO dto);
+  List<ExpenseTypeDTO> search(
+      @RequestHeader("x-sf-group-ref") UUID group,
+      @RequestBody ExpenseTypeDTO dto);
 }

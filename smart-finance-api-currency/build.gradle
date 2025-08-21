@@ -1,0 +1,128 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
+}
+
+group = 'com.smart-finance'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation platform('io.micrometer:micrometer-tracing-bom:latest.release')
+	implementation 'io.micrometer:micrometer-tracing'
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
+
+	// DB and Flyway
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+
+	// shedlock
+	implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-spring', version: '5.16.0'
+	implementation group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-jdbc-template', version: '5.16.0'
+
+	// Tests
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// Devtools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+sourceSets {
+	integrationTest {
+		java.srcDir 'src/integrationTest/java'
+		resources.srcDir 'src/integrationTest/resources'
+		compileClasspath += main.output
+		runtimeClasspath += main.output
+	}
+}
+
+configurations {
+	integrationTestImplementation.extendsFrom testImplementation
+	integrationTestRuntime.extendsFrom testRuntime
+}
+
+tasks.register('integrationTest', Test) {
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+tasks.named('integrationTest') {
+	useJUnitPlatform()
+}
+
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+}
+
+//jacocoTestCoverageVerification {
+//	violationRules {
+//		rule {
+//			limit {
+//				minimum = 0.5
+//			}
+//		}
+//
+//		rule {
+//			enabled = false
+//			element = 'CLASS'
+//			includes = ['com.smartfinance.*']
+//
+//			limit {
+//				counter = 'LINE'
+//				value = 'TOTALCOUNT'
+//				maximum = 0.3
+//			}
+//		}
+//	}
+//}
+
+check.dependsOn integrationTest
